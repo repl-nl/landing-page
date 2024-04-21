@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Placeholder site</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
+    <style>
+     body {
+         margin: 0; padding: 0;
+     }
+     canvas {
+         width: 100%; height: 100%;
+     }
+     .page {
+         width: 90vw; height: 70vh;
+         text-align: center;
+         padding-top: 30vh;
+         padding-left: 5vw;
+         font-size: 40px;
+         display: block;
+       font-family: 'Roboto'
+     }
+
+     #repl {
+         color: black !important;
+     }
+     #info a{
+         color: grey;
+         text-decoration: none;
+     }
+     #info {
+	     position: fixed;
+	     top: 10px;
+       font-size: 50px;
+	     width: 100%;
+	     text-align: center;
+	     z-index: 999;
+	     display:block;
+       font-family: 'Roboto Mono';
+         text-decoration: none;
+
+     }
+	  </style>
+  </head>
+  <body>
+      <div id="info"> <a href="#" id="repl">REPL</a> [ <a href="#about">ABOUT</a> | <a href="#projects">PROJECTS</a> | <a href="https://github.com/repl-nl" target="blank">GITHUB</a> | <a href="#contact">CONTACT</a> ]</div>
+    <script>
+	   const WIDTH = window.innerWidth;
+	   const HEIGHT = window.innerHeight;
+
+     let mouseX = window.innerWidth / 2;
+     let mouseY = window.innerHeight / 2;
+
+     // window.addEventListener('scroll', function (e) {
+     //      if () // make the header into a loading bar lol
+     //     });
+
+    window.addEventListener('mousemove', function (e) {
+            mouseX = e.pageX;
+            mouseY = e.pageY;
+        });
+
+	   const renderer = new THREE.WebGLRenderer({antialias:true});
+	   renderer.setSize(WIDTH, HEIGHT);
+	   renderer.setClearColor(0xE3E3E3, 1);
+	   document.body.appendChild(renderer.domElement);
+
+	   const scene = new THREE.Scene();
+
+	   const camera = new THREE.PerspectiveCamera(70, WIDTH/HEIGHT);
+	   camera.position.z = 50;
+	   scene.add(camera);
+
+	   const boxGeometry = new THREE.BoxGeometry(10, 10, 10);
+	   const basicMaterial = new THREE.MeshBasicMaterial({color: `hsla(${Math.ceil(Math.random() * 360)},100%,58%,1)`, });
+	   const cube = new THREE.Mesh(boxGeometry, basicMaterial);
+	   scene.add(cube);
+	   cube.rotation.set(Math.ceil(Math.random() * 5), Math.ceil(Math.random() * 5), 0);
+
+     let i = 0;
+
+	   function render() {
+		   requestAnimationFrame(render);
+           cube.rotation.set(-3 * mouseY / window.innerHeight, -3 * mouseX / window.innerWidth, 0 + 0.001*i++);
+		   renderer.render(scene, camera);
+	   }
+
+	   render();
+    </script>
+
+    <article id="about" class="page">
+        REPL was founded in Tokyo japan in 2018 as an initiative for commercialization of emergent technologies. We have since released various projects.
+    </article>
+    <div id="projects" class="page">
+        the fastest generative AI platform... demo at <a href="https://ai.repl.sh/">ai.repl.sh</a>
+    </div>
+    <div id="contact" class="page">
+“Greatness is a transitory experience. It is never consistent. It depends in part upon the myth-making imagination of humankind. The person who experiences greatness must have a feeling for the myth he is in. He must reflect what is projected upon him. And he must have a strong sense of the sardonic. This is what uncouples him from belief in his own pretensions. The sardonic is all that permits him to move within himself. Without this quality, even occasional greatness will destroy a man.”
+    </div>
+  </body>
+</html>
